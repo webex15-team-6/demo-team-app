@@ -7,14 +7,14 @@
           <input type="checkbox" />
         </div>
         <div class="memo__text">{{ memo.text }}</div>
-        <button class="memo__delete">削除</button>
+        <button class="memo__delete" @click="deleteMemo(index)">削除</button>
       </li>
     </ul>
     <div class="add-memo-field">
       <input class="add-memo-field__input" type="text" v-model="inputText" />
       <button
         class="add-memo-field__button"
-        v-on:click="addMemo"
+        @click="addMemo"
         v-bind:disabled="isInputEmpty"
       >
         追加
@@ -46,6 +46,9 @@ export default {
       const tmp = { text: this.inputText }
       this.memos.push(tmp)
       this.inputText = ""
+    },
+    deleteMemo(idx) {
+      this.memos.splice(idx, 1)
     },
   },
   computed: {
