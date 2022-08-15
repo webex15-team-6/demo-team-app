@@ -4,9 +4,12 @@
     <ul class="memo-list__container">
       <li class="memo" v-for="(memo, index) in memos" v-bind:key="index">
         <div class="memo__checkbox">
-          <input type="checkbox" />
+          <input type="checkbox" v-model="memo.isDone" />
         </div>
-        <div class="memo__text">{{ memo.text }}</div>
+        <div v-if="memo.isDone" class="memo__text memo__text--done">
+          {{ memo.text }}
+        </div>
+        <div v-else class="memo__text">{{ memo.text }}</div>
         <button class="memo__delete" @click="deleteMemo(index)">削除</button>
       </li>
     </ul>
@@ -31,12 +34,15 @@ export default {
       memos: [
         {
           text: "ひき肉を300g買う",
+          isDone: false,
         },
         {
           text: "ホウレンソウを1束買う",
+          isDone: false,
         },
         {
           text: "ピーマンを2個買う",
+          isDone: false,
         },
       ],
     }
