@@ -14,7 +14,12 @@
       </li>
     </ul>
     <div class="add-memo-field">
-      <input class="add-memo-field__input" type="text" v-model="inputText" />
+      <input
+        class="add-memo-field__input"
+        type="text"
+        v-model="inputText"
+        placeholder="新しいメモ"
+      />
       <button
         class="add-memo-field__button"
         @click="addMemo"
@@ -52,8 +57,7 @@ export default {
      * メモを追加する
      */
     addMemo() {
-      const tmp = { text: this.inputText }
-      this.memos.push(tmp)
+      this.memos.push({ text: this.inputText, isDone: false })
       this.inputText = ""
     },
     /**
