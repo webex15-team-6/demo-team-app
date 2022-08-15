@@ -42,16 +42,25 @@ export default {
     }
   },
   methods: {
+    /**
+     * メモを追加する
+     */
     addMemo() {
       const tmp = { text: this.inputText }
       this.memos.push(tmp)
       this.inputText = ""
     },
+    /**
+     * メモを削除する
+     */
     deleteMemo(idx) {
       this.memos.splice(idx, 1)
     },
   },
   computed: {
+    /**
+     * 入力欄が空白ならTrue, それ以外はFalse
+     */
     isInputEmpty() {
       return this.inputText === ""
     },
