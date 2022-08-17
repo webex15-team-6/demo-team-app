@@ -18,6 +18,7 @@
         class="add-memo-field__input"
         type="text"
         v-model="inputText"
+        v-on:keydown.enter="addMemo"
         placeholder="新しいメモ"
       />
       <button
@@ -57,8 +58,10 @@ export default {
      * メモを追加する
      */
     addMemo() {
-      this.memos.push({ text: this.inputText, isDone: false })
-      this.inputText = ""
+      if (this.inputText !== "") {
+        this.memos.push({ text: this.inputText, isDone: false })
+        this.inputText = ""
+      }
     },
     /**
      * メモを削除する
