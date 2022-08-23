@@ -4,17 +4,54 @@
     <div
       class="palette"
       v-on:mousemove="changeColor"
-      v-on:click="pickColor"
       v-bind:style="paletteStyle"
-    ></div>
-    <p>rgba( {{ red }}, {{ green }}, 200, 0.5 )</p>
+    >
+      <div>
+        <div style="color: red">
+          RED
+          <input type="range" min="0" max="255" step="1" v-model="redSlider" />
+        </div>
+        <div style="color: green">
+          GREEN
+          <input
+            type="range"
+            min="0"
+            max="255"
+            step="1"
+            v-model="greenSlider"
+          />
+        </div>
+        <div style="color: blue">
+          BLUE
+          <input type="range" min="0" max="255" step="1" v-model="blueSlider" />
+        </div>
+        <div style="color: white">
+          Alpha
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.05"
+            v-model="AlphaSlider"
+          />
+        </div>
+      </div>
+    </div>
+    <p>
+      rgba( {{ redSlider }}, {{ greenSlider }}, {{ blueSlider }},
+      {{ alphaSlider }} )
+    </p>
+
+    <div>
+      <button v-on:click="pickColor()">色をパレットに追加する</button>
+    </div>
     <div class="colors-container">
       <div
         class="mini-palette"
         v-for="color in colors"
         :key="color.red"
         v-bind:style="{
-          backgroundColor: `rgba(${color.red}, ${color.green}, 200, 0.5)`,
+          backgroundColor: `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha})`,
         }"
         v-on:click="showColor(color)"
       ></div>
@@ -51,24 +88,33 @@ export default {
     return {
       red: 0,
       green: 0,
+      blue: 0,
+      alpha: 0.5,
       colors: [
         // { red: 0, green: 0 }
       ],
+      redSlider: 0,
+      greenSlider: 0,
+      blueSlider: 0,
+      alphaSlider: 0.5,
     }
   },
   methods: {
     // マウスの位置に応じて色を変える
     /* 引数eはイベントmousemove */
-    changeColor(e) {
-      this.red = e.offsetX //x軸
-      this.green = e.offsetY //y軸
-      console.log(this.red)
+    changeColor() {
+      this.red = this.redSlider
+      this.green = this.greenSlider
+      this.blue = this.blueSlider
+      this.alpha = this.alphaSlider
     },
     // 色を選んでミニパレットに追加する
     pickColor() {
       const newColor = {
-        red: this.red,
-        green: this.green,
+        red: this.redSlider, //変更前red
+        green: this.greenSlider, //変更前green
+        blue: this.blueSlider, //追加
+        alpha: this.alphaSlider,
       }
       this.colors.push(newColor)
     },
@@ -76,12 +122,14 @@ export default {
     showColor(color) {
       this.red = color.red
       this.green = color.green
+      this.blue = color.blue
+      this.alpha = color.alpha
     },
   },
   computed: {
     paletteStyle() {
       return {
-        backgroundColor: `rgba(${this.red}, ${this.green}, 200, 0.5)`,
+        backgroundColor: `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.alpha})`, //変更前blue=200
       }
     },
   },
