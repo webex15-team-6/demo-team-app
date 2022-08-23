@@ -29,10 +29,10 @@
           Alpha
           <input
             type="range"
-            min="0"
-            max="1"
+            min="0.00"
+            max="1.00"
             step="0.05"
-            v-model="AlphaSlider"
+            v-model="alphaSlider"
           />
         </div>
       </div>
