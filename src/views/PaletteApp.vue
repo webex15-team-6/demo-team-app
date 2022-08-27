@@ -38,13 +38,14 @@
       </div>
     </div>
     <p>
-      rgba( {{ redSlider }}, {{ greenSlider }}, {{ blueSlider }},
+      bigColor_rgba( {{ redSlider }}, {{ greenSlider }}, {{ blueSlider }},
       {{ alphaSlider }} )
     </p>
 
     <div>
       <button v-on:click="pickColor()">色をパレットに追加する</button>
     </div>
+    <p>miniColor_rgba( {{ red }}, {{ green }}, {{ blue }}, {{ alpha }} )</p>
     <div class="colors-container">
       <div
         class="mini-palette"
