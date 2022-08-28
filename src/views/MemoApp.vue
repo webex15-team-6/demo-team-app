@@ -6,11 +6,41 @@
         <div class="memo__checkbox">
           <input type="checkbox" v-model="memo.isDone" />
         </div>
-        <div v-if="memo.isDone" class="memo__text memo__text--done">
-          {{ memo.text }}
+        <div
+          v-if="memo.isDone && !memo.isEdit"
+          class="memo__text memo__text--done"
+        >
+          {{ index }}:{{ memo.text }}
         </div>
-        <div v-else class="memo__text">{{ memo.text }}</div>
-        <button class="memo__delete" @click="deleteMemo(index)">削除</button>
+        <div v-else-if="!memo.isDone && !memo.isEdit" class="memo__text">
+          {{ index }}:{{ memo.text }}
+        </div>
+        <div v-else>
+          <input
+            type="text"
+            v-model="editedText"
+            v-on:keydown.enter="setNewText(index)"
+          />
+        </div>
+        <div class="memo__buttons">
+          <button
+            class="memo__edit"
+            v-if="!memo.isEdit"
+            @click="editMemo(index)"
+          >
+            編集
+          </button>
+          <button
+            class="memo__delete"
+            v-if="!memo.isEdit"
+            @click="deleteMemo(index)"
+          >
+            削除
+          </button>
+          <button class="memo__done" v-else @click="setNewText(index)">
+            完了
+          </button>
+        </div>
       </li>
     </ul>
     <div class="add-memo-field">
@@ -41,16 +71,20 @@ export default {
         {
           text: "ひき肉を300g買う",
           isDone: false,
+          isEdit: false,
         },
         {
           text: "ホウレンソウを1束買う",
           isDone: false,
+          isEdit: false,
         },
         {
           text: "ピーマンを2個買う",
           isDone: false,
+          isEdit: false,
         },
       ],
+      editedText: "",
     }
   },
   methods: {
@@ -58,8 +92,8 @@ export default {
      * メモを追加する
      */
     addMemo() {
-      if (this.inputText !== "") {
-        this.memos.push({ text: this.inputText, isDone: false })
+      if (!this.isInputEmpty) {
+        this.memos.push({ text: this.inputText, isDone: false, isEdit: false })
         this.inputText = ""
       }
     },
@@ -68,6 +102,18 @@ export default {
      */
     deleteMemo(idx) {
       this.memos.splice(idx, 1)
+    },
+    editMemo(idx) {
+      this.memos[idx].isEdit = true
+      this.editedText = this.memos[idx].text
+    },
+    setNewText(idx) {
+      if (this.editedText === "") {
+        this.deleteMemo(idx)
+      } else {
+        this.memos[idx].text = this.editedText
+        this.memos[idx].isEdit = false
+      }
     },
   },
   computed: {
@@ -128,7 +174,33 @@ export default {
 }
 
 .memo__delete:hover {
+  background-color: #ff0000;
+  border-radius: 5px;
+}
+
+.memo__edit {
+  margin-left: 1rem;
+  padding: 0.5rem 0.5rem;
+  border: solid 1px black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.memo__edit:hover {
   background-color: #b2ae3b;
+  border-radius: 5px;
+}
+
+.memo__done {
+  margin-left: 1rem;
+  padding: 0.5rem 0.5rem;
+  border: solid 1px black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.memo__done:hover {
+  background-color: #00aeef;
   border-radius: 5px;
 }
 
