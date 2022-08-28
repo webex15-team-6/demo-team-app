@@ -18,6 +18,7 @@
         <div v-else>
           <input
             type="text"
+            class="input__edit"
             v-model="editedText"
             v-on:keydown.enter="setNewText(index)"
           />
@@ -189,6 +190,10 @@ export default {
 .memo__edit:hover {
   background-color: #b2ae3b;
   border-radius: 5px;
+}
+
+.input__edit {
+  padding: 8px;
 }
 
 .memo__done {
